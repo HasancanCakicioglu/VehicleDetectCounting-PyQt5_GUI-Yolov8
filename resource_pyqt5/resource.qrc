@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>assets/icons/graph.ico</file>
+    <file>assets/icons/exit.ico</file>
+    <file>assets/icons/h.ico</file>
+    <file>assets/icons/home.ico</file>
+    <file>assets/icons/menu.ico</file>
+    <file>assets/icons/menu2.ico</file>
+    <file>assets/icons/search.ico</file>
+    <file>assets/icons/settings.ico</file>
+    <file>assets/icons/statistic.ico</file>
+    <file>assets/icons/exit.ico</file>
+    <file>assets/icons/home.ico</file>
+    <file>assets/icons/menu.ico</file>
+  </qresource>
+</RCC>

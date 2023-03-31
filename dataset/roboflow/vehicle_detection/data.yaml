@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['car', 'motorbike']
+
+roboflow:
+  workspace: project
+  project: vehicle-detection-viijo
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/project/vehicle-detection-viijo/dataset/1
