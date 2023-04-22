@@ -12,11 +12,15 @@ class videoPlayer(QThread):
         self.image_path = image_path
         self.model = model
 
+
     def run(self):
         self.ThreadActive = True
         #self.cap = cv2.VideoCapture("traffic.mp4")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        print("Kodunuz {} üzerinde çalışıyor.".format(device))
+        print("Kod {} üzerinde çalışıyor.".format(device))
+
+
+
 
         vehicle_detection_counting(self)
         self.cap.release()
