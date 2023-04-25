@@ -1,20 +1,25 @@
 import sys
 
 import cvzone
+from PyQt5.QtChart import QChartView, QLineSeries, QPieSeries, QChart, QBarSet, QBarSeries, QBarCategoryAxis
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QFileDialog, QStyle, QLabel, QTableWidgetItem, \
-    QHeaderView
+    QHeaderView, QVBoxLayout, QWidget, QScrollArea
 
-from PyQt5.QtGui import QPixmap, QPalette, QColor, QIcon, QBrush, QImage
+from PyQt5.QtGui import QPixmap, QPalette, QColor, QIcon, QBrush, QImage, QPainter
 from cv2 import cv2
 from faker import Faker
+
+from src.components.Charts.charts_controller import charts_Controller
 from src.constants.assets.assets_constants import AssetsConstants
 from src.constants.assets.assets_enums import assetsEnum
 from src.constants.assets.color_constants import Color_Constants
+from src.constants.carTypes import CarTypes
 from src.screen.main.generate.sidebar_main_generate import Ui_MainWindow
 from src.state_managment.checkBox_controller import CheckBoxController
 from src.state_managment.overspeed_profile_controller import overspeed_Profile_Controller
 from src.state_managment.speed_controller import Speed_Calculator
+from src.state_managment.vehicle_statistic import vehicle_Statistic
 from src.thread.video_player import videoPlayer
 
 
@@ -113,6 +118,12 @@ class MainWindow(QMainWindow):
 
 
     def update_button_profile(self):
+        try:
+            i = overspeed_Profile_Controller.plate
+        except:
+            print("return None")
+            return None
+
         rowCount = self.tableWidget.rowCount()
         for row in range(rowCount):
             self.tableWidget.removeRow(0)
@@ -235,6 +246,7 @@ class MainWindow(QMainWindow):
 
 
 
+
     def ImageUpdateSlot(self,Image):
         self.ui.label_page1_video.setPixmap(QPixmap.fromImage(Image))
 
@@ -279,8 +291,94 @@ class MainWindow(QMainWindow):
     def on_statistic_btn_1_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(1)
 
+
+
     def on_statistic_btn_2_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(1)
+
+
+
+        frame = self.ui.frame_static_page
+        if frame.layout() is not None:
+            for i in reversed(range(frame.layout().count())):
+                widgetToRemove = frame.layout().itemAt(i).widget()
+                frame.layout().removeWidget(widgetToRemove)
+                widgetToRemove.setParent(None)
+
+        series1 = QPieSeries()
+        series1.append("Motorbike", 15)
+        series1.append("Car", 40)
+        series1.append("Bus", 25)
+        series1.append("Truck", 20)
+
+
+
+        set0 = QBarSet('Low')
+        set1 = QBarSet('Average')
+        set2 = QBarSet('High')
+
+        print("geldi")
+
+        lowc,averagec,highc = vehicle_Statistic.gets_low_average_high_speed(CarTypes=CarTypes.CAR)
+        lowm, averagem, highm = vehicle_Statistic.gets_low_average_high_speed(CarTypes=CarTypes.MOTORBIKE)
+        lowb, averageb, highb = vehicle_Statistic.gets_low_average_high_speed(CarTypes=CarTypes.BUS)
+        lowt, averaget, hight = vehicle_Statistic.gets_low_average_high_speed(CarTypes=CarTypes.TRUCK)
+
+
+        set0.append([lowc, lowm, lowb,lowt])
+        set1.append([averagec,averagem, averageb,averaget])
+        set2.append([highc,highm,highb,hight])
+
+        series2 = QBarSeries()
+        series2.append(set0)
+        series2.append(set1)
+        series2.append(set2)
+
+
+        # Create two QChartView widgets and set their series
+        chartView1 = QChartView()
+        chartView1c = chartView1.chart()
+        chart1 = QChart()
+        chartView1c.addSeries(series1)
+        chartView1.setRenderHint(QPainter.Antialiasing)
+        chartView1c.setTitle("Vehicle Counts")
+        chartView1c.setAnimationOptions(QChart.SeriesAnimations)
+
+        chartView2 = QChartView()
+        chartView2c = chartView2.chart()
+
+        chartView2c.addSeries(series2)
+
+        chartView2.setRenderHint(QPainter.Antialiasing)
+
+        chartView2c.setTitle("Speed Average")
+        chartView2c.setAnimationOptions(QChart.SeriesAnimations)
+
+        categories = ['Car', 'MotorBike', 'Truck',"Bus"]
+        axis = QBarCategoryAxis()
+        axis.append(categories)
+        chartView2c.createDefaultAxes()
+        chartView2c.setAxisX(axis, series2)
+
+        chartView1.setFixedSize(self.ui.frame_static_page.width()/1.1, self.ui.frame_static_page.height() / 1.1)
+        chartView2.setFixedSize(self.ui.frame_static_page.width()/1.1, self.ui.frame_static_page.height() / 1.1)
+
+        # Create a QVBoxLayout and add the QChartViews to it
+        layout = QVBoxLayout()
+        layout.addWidget(chartView1)
+        layout.addWidget(chartView2)
+
+        # Create a QWidget to hold the QVBoxLayout
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        # Create a QScrollArea and set its widget to the QWidget
+        scrollArea = QScrollArea()
+        scrollArea.setWidget(widget)
+
+        # Set the main window's layout to the QScrollArea
+        self.ui.frame_static_page.setLayout(QVBoxLayout())
+        self.ui.frame_static_page.layout().addWidget(scrollArea)
 
     def on_settings_btn_1_toggled(self):
         self.ui.stackedWidget.setCurrentIndex(2)

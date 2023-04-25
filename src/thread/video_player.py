@@ -19,12 +19,13 @@ class videoPlayer(QThread):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print("Kod {} üzerinde çalışıyor.".format(device))
 
-
-
-
         vehicle_detection_counting(self)
+
+        print("103")
         self.cap.release()
+        print("104")
         self.quit()
+        print("105")
 
     def stop(self):
         self.ThreadActive = False

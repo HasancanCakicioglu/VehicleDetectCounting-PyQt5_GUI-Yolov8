@@ -155,13 +155,11 @@ class Ui_MainWindow(object):
         self.page_2.setObjectName("page_2")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.page_2)
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.label_6 = QtWidgets.QLabel(self.page_2)
-        font = QtGui.QFont()
-        font.setPointSize(50)
-        self.label_6.setFont(font)
-        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout_4.addWidget(self.label_6, 0, 0, 1, 1)
+        self.frame_static_page = QtWidgets.QFrame(self.page_2)
+        self.frame_static_page.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_static_page.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_static_page.setObjectName("frame_static_page")
+        self.gridLayout_4.addWidget(self.frame_static_page, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
@@ -415,7 +413,7 @@ class Ui_MainWindow(object):
         self.settings_btn_1 = QtWidgets.QPushButton(self.icon_only_widget)
         self.settings_btn_1.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icons/icons/settings.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/icons/icons/profile.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settings_btn_1.setIcon(icon5)
         self.settings_btn_1.setIconSize(QtCore.QSize(30, 30))
         self.settings_btn_1.setCheckable(True)
@@ -508,7 +506,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
         self.change_btn.toggled['bool'].connect(self.icon_only_widget.setVisible) # type: ignore
         self.change_btn.toggled['bool'].connect(self.full_menu_widget.setHidden) # type: ignore
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
@@ -537,7 +535,6 @@ class Ui_MainWindow(object):
         self.comboBox_model.setItemText(3, _translate("MainWindow", "Yolov8sCustom"))
         self.select_video_pushButton.setText(_translate("MainWindow", "Select Video"))
         self.pushButton_close.setText(_translate("MainWindow", "Close"))
-        self.label_6.setText(_translate("MainWindow", "Statistic"))
         self.label_name.setText(_translate("MainWindow", "TextLabel"))
         self.label_surname.setText(_translate("MainWindow", "TextLabel"))
         self.label_age.setText(_translate("MainWindow", "TextLabel"))
@@ -556,6 +553,7 @@ class Ui_MainWindow(object):
         self.statistic_btn_2.setText(_translate("MainWindow", "Statistic"))
         self.settings_btn_2.setText(_translate("MainWindow", "Settings"))
         self.exit_btn_2.setText(_translate("MainWindow", "Exit"))
+
 
 
 

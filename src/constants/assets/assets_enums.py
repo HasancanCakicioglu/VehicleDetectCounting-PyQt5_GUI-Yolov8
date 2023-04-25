@@ -5,6 +5,8 @@ from enum import Enum
 class assetsEnum(Enum):
     car = 'car_graphics.png'
     motorbike = 'motorbike_graphics.png'
+    bus = 'bus_graphics.png'
+    truck = 'truck_graphics.png'
     mask = 'traffic_mask.png'
     best = 'best.pt'
     yolov8l = 'yolov8l.pt'
