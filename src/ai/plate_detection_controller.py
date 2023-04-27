@@ -77,11 +77,10 @@ class plateDetectionController:
 
             cv2.rectangle(image_np, (xmin, ymin), (xmax, ymax), (0, 255, 0), 3)
             ocr_result = plateDetectionController.plate_reader(image_np[ymin:ymax, xmin:xmax])
-            print("cls = "+str(clss))
-            print("indi = "+str(indi))
+
 
             break
-        print("scores outside =" + str(selected_indices))
+
         if there_is and (ocr_result is not None) and (ocr_result!=[]) and (len(ocr_result[0])>1):
             return there_is,xmin, ymin,xmax, ymax,ocr_result
         else:

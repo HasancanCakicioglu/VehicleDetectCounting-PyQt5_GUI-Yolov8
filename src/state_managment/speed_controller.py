@@ -1,5 +1,7 @@
 import math
 
+from src.state_managment.chosen_variable import chosenVariable
+
 
 def estimatedSpeed(location1,location2):
     d_pixels = math.sqrt(math.pow(location2[0] - location1[0],2) + math.pow(location2[1]-location1[1],2))
@@ -15,7 +17,7 @@ class Speed_Calculator:
     def __init__(self):
         Speed_Calculator.vehicle_info  = []
         Speed_Calculator.vehicle_max_speed = []
-        Speed_Calculator.overspeed= 40
+        Speed_Calculator.overspeed= chosenVariable.get_Speed_Limit()
 
     def add_vehicle_speed_info(self,id,veri):
 

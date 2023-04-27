@@ -1,5 +1,5 @@
 from src.constants.carTypes import CarTypes
-import math as math
+
 
 class vehicle_Statistic:
     def __init__(self):
@@ -10,14 +10,13 @@ class vehicle_Statistic:
     @staticmethod
     def add_Statistic_vehicle_speed_info(speed,CarTypes:CarTypes):
 
-        if speed <2 or speed>200:
+        if speed <5:
             return None
         is_exist = False
         for dictionary in vehicle_Statistic.vehicle_speed_info:
             if CarTypes.value == dictionary["cartypes"]:
                 is_exist = True
-                print(str(dictionary["speed"][-1]))
-                print("speed = "+str(speed))
+
                 if (speed < dictionary["speed"][-1] * 150 / 100) or (speed < 20):
                     dictionary["speed"] = dictionary["speed"] + [speed]
                 else:

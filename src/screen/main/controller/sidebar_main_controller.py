@@ -17,6 +17,8 @@ from src.constants.assets.color_constants import Color_Constants
 from src.constants.carTypes import CarTypes
 from src.screen.main.generate.sidebar_main_generate import Ui_MainWindow
 from src.state_managment.checkBox_controller import CheckBoxController
+from src.state_managment.chosen_variable import chosenVariable
+from src.state_managment.count_vehicle import count_vehicle_statistics
 from src.state_managment.overspeed_profile_controller import overspeed_Profile_Controller
 from src.state_managment.speed_controller import Speed_Calculator
 from src.state_managment.vehicle_statistic import vehicle_Statistic
@@ -34,6 +36,8 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(3)
         self.ui.home_btn_2.setChecked(True)
 
+
+
         self.ui.home_btn_1.setStyleSheet("QPushButton:checked { color: blue; }")
 
         self.videoPlayer = None
@@ -42,11 +46,15 @@ class MainWindow(QMainWindow):
         self.ui.checkBox_vehicledetection.clicked.connect(self.checkBox_vehicle_detection)
         self.ui.checkBox_platedetection.clicked.connect(self.checkBox_plate_detection)
         self.ui.checkBox_speeddetection.clicked.connect(self.checkBox_speed_detection)
-
+        self.initializeComboBoxes()
         self.ui.pushButton.clicked.connect(self.update_button_profile)
+
 
         self.ui.comboBox_model.currentTextChanged.connect(self.comboBox_model_func)
         self.model = AssetsConstants.get_model_path(assetsEnum.yolov8l.value)
+
+        self.ui.comboBox_mask.currentTextChanged.connect(self.comboBox_mask_func)
+        self.ui.comboBox_count_line.currentTextChanged.connect(self.comboBox_line_func)
 
         self.ui.tableWidget_plate.cellClicked.connect(self.on_table_cell_clicked)
 
@@ -55,6 +63,26 @@ class MainWindow(QMainWindow):
         self.ui.comboBox_model.setCurrentText("Yolov8l")
         self.tableWidgetProfilePage()
 
+        self.ui.lineEdit_speed_punshment.textChanged.connect(self.on_line_edit_changed)
+
+
+    def on_line_edit_changed(self,text):
+        chosenVariable.set_Speed_Limit(int(text))
+
+
+
+    def initializeComboBoxes(self):
+
+        self.ui.comboBox_mask.addItems(chosenVariable.get_List_MASK_NAME())
+        self.ui.comboBox_count_line.addItems(chosenVariable.get_List_LINE_NAME())
+
+
+
+    def comboBox_mask_func(self,text):
+        chosenVariable.controlMask(text=text)
+
+    def comboBox_line_func(self,text):
+        chosenVariable.controlLine(text=text)
 
 
     def on_table_cell_clicked(self,row, column):
@@ -71,13 +99,13 @@ class MainWindow(QMainWindow):
         cell_text = item.text()
 
         self.ui.label_plate_write.setText(cell_text)
-        print("1")
+
         for dictionary in overspeed_Profile_Controller.plate:
-            print("2")
+
             print(dictionary["plate_text"])
             print(cell_text)
             if dictionary["plate_text"][0][1] == cell_text:
-                print("3")
+
                 frame = dictionary["frame"]
                 x1,y1,x2,y2 = dictionary["dimension1"]
                 xmin,ymin,xmax,ymax = dictionary["dimension2"]
@@ -86,9 +114,9 @@ class MainWindow(QMainWindow):
                 frame_number = frame
                 cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
                 success, img = cap.read()
-                print("4")
+
                 if success:
-                    print("4.1")
+
                     #crop_img = img[(y1+ymin):(y1+ymax), (x1+xmin):(x1+xmax)]
                     crop_img = img[y1:y2, x1:x2]
                     new_crop_img = crop_img[ymin:ymax, xmin:xmax]
@@ -108,10 +136,10 @@ class MainWindow(QMainWindow):
                     self.ui.label_camera_vehicle_image.setScaledContents(True)
                     self.ui.label_camera_vehicle_image.setAlignment(Qt.AlignCenter)
 
-                    print("4.5")
+
                 else:
                     print(f"Cannot read frame {frame_number}")
-                print("6")
+
                 cap.release()
                 
 
@@ -132,7 +160,7 @@ class MainWindow(QMainWindow):
 
         for dictionary in overspeed_Profile_Controller.plate:
             maxSpeed=0
-            print("palte text = "+str(dictionary['plate_text'][0][1]))
+
             row_count = self.tableWidget.rowCount()
             self.tableWidget.insertRow(row_count)
             plate_text = str(dictionary['plate_text'][0][1])
@@ -143,7 +171,7 @@ class MainWindow(QMainWindow):
                 if speC["id"]==dictionary["id"]:
                     maxSpeed=speC["max_speed"]
 
-            if maxSpeed > Speed_Calculator.overspeed:
+            if maxSpeed > chosenVariable.get_Speed_Limit():
                 brush = Color_Constants.get_Red_QBrush_Color()
             else:
                 brush = Color_Constants.get_Green_QBrush_Color()
@@ -305,11 +333,27 @@ class MainWindow(QMainWindow):
                 frame.layout().removeWidget(widgetToRemove)
                 widgetToRemove.setParent(None)
 
+        car =0
+        motor=0
+        bus =0
+        truck =0
+
+        for dictionary in count_vehicle_statistics.vehicle_count_type_info:
+            if dictionary["cartypes"]==CarTypes.CAR.value:
+                car = dictionary["count"]
+            if dictionary["cartypes"]==CarTypes.MOTORBIKE.value:
+                motor = dictionary["count"]
+            if dictionary["cartypes"]==CarTypes.BUS.value:
+                bus = dictionary["count"]
+            if dictionary["cartypes"]==CarTypes.TRUCK.value:
+                truck = dictionary["count"]
+
+
         series1 = QPieSeries()
-        series1.append("Motorbike", 15)
-        series1.append("Car", 40)
-        series1.append("Bus", 25)
-        series1.append("Truck", 20)
+        series1.append("Motorbike", motor)
+        series1.append("Car", car)
+        series1.append("Bus", bus)
+        series1.append("Truck", truck)
 
 
 
@@ -317,7 +361,7 @@ class MainWindow(QMainWindow):
         set1 = QBarSet('Average')
         set2 = QBarSet('High')
 
-        print("geldi")
+
 
         lowc,averagec,highc = vehicle_Statistic.gets_low_average_high_speed(CarTypes=CarTypes.CAR)
         lowm, averagem, highm = vehicle_Statistic.gets_low_average_high_speed(CarTypes=CarTypes.MOTORBIKE)

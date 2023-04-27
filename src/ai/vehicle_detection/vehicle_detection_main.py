@@ -17,6 +17,8 @@ from src.constants.assets.assets_enums import assetsEnum
 from src.constants.assets.color_constants import Color_Constants
 from src.constants.carTypes import CarTypes
 from src.state_managment.checkBox_controller import CheckBoxController
+from src.state_managment.chosen_variable import chosenVariable
+from src.state_managment.count_vehicle import count_vehicle_statistics
 from src.state_managment.overspeed_profile_controller import overspeed_Profile_Controller
 from src.state_managment.speed_controller import Speed_Calculator
 from src.state_managment.vehicle_statistic import vehicle_Statistic
@@ -34,6 +36,7 @@ def vehicle_detection_counting(self):
     classNames = AssetsConstants.get_classnames()
 
     mask = cv2.imread(AssetsConstants.get_mask_path(assetsEnum.mask.value))
+    mask1 = cv2.imread(AssetsConstants.get_mask_path(assetsEnum.mask.value))
     #print(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     #print(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
@@ -46,7 +49,17 @@ def vehicle_detection_counting(self):
     trackerTruck = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
     trackerBus = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
 
-    limits = [0, 597, 1920, 597]
+    #[0, 597, 1920, 597]
+    myLimit = chosenVariable.get_line()
+
+    if myLimit == None:
+        limits = [0,0,0,0]
+    else:
+        limits = myLimit
+
+
+
+
     totalCountCar = []
     totalCountMotorbike = []
     totalCountTruck = []
@@ -69,6 +82,8 @@ def vehicle_detection_counting(self):
         start_time = time.time()
         success, img = self.cap.read()
         heightImage, widthImage, channels = img.shape
+
+        overspeed_punishment = chosenVariable.get_Speed_Limit()
 
 
         frame_count = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
@@ -97,9 +112,11 @@ def vehicle_detection_counting(self):
 
 
         if CheckBoxController.get_value_plate_detection() or CheckBoxController.get_value_vehicle_detection():
-            imgRegion = cv2.bitwise_and(img, mask)
-
-
+            mymask = chosenVariable.get_mask()
+            if mymask == None:
+                imgRegion=img
+            else:
+                imgRegion = cv2.bitwise_and(img, mask)
 
         if CheckBoxController.get_value_vehicle_detection():
 
@@ -108,10 +125,10 @@ def vehicle_detection_counting(self):
             img = cvzone.overlayPNG(self.cap.read()[1], carGraphics, (0, 0))
 
             img = cvzone.overlayPNG(img, motorbikeGraphics, (0, 160))
-            print("graf 1")
+
             img = cvzone.overlayPNG(img, busGraphics, (widthImage - overlayWidthBus, 0))
             img = cvzone.overlayPNG(img, truckGraphics, (widthImage - overlayWidthTruck ,160))
-            print("graf 2")
+
 
             results = model(imgRegion, stream=True)
 
@@ -172,7 +189,7 @@ def vehicle_detection_counting(self):
                 cy = y1 + h // 2
                 colorRect = Color_Constants.get_Purple_Color()
 
-                print("boy = img "+str())
+
 
                 if CheckBoxController.get_value_plate_detection() and restrictive.plate_detection_restrictive(cy,heightImage):
                     b, xmin, ymin, xmax, ymax, ocr_result = plateDetectionController.predict(image_np=img[y1:y2, x1:x2],
@@ -194,7 +211,7 @@ def vehicle_detection_counting(self):
                         if restrictive.speed_detection_restrictive(cy,heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.CAR)
 
-                        if speed > Speed_Calculator.overspeed:
+                        if speed > overspeed_punishment:
                             colorRect = Color_Constants.get_Red_Color()
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=5, colorR=colorRect)
@@ -208,6 +225,7 @@ def vehicle_detection_counting(self):
 
                     if totalCountCar.count(id) == 0:
                         totalCountCar.append(id)
+                        count_vehicle_statistics.add_Statistic_vehicle_count_type_info(CarTypes=CarTypes.CAR)
                         cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
 
@@ -226,10 +244,11 @@ def vehicle_detection_counting(self):
                     if speed is not None:
                         cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)), max(35, y1)),
                                            scale=2, thickness=3, offset=10)
-                        if speed > Speed_Calculator.overspeed:
+                        if speed > overspeed_punishment:
                             colorRect = Color_Constants.get_Red_Color()
                         if restrictive.speed_detection_restrictive(cy, heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.MOTORBIKE)
+
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=2, colorR=colorRect)
                 cvzone.putTextRect(img, f' {int(id)} - Motorbike', (max(0, x1), max(35, y1)),
@@ -242,6 +261,7 @@ def vehicle_detection_counting(self):
 
                     if totalCountMotorbike.count(id) == 0:
                         totalCountMotorbike.append(id)
+                        count_vehicle_statistics.add_Statistic_vehicle_count_type_info(CarTypes=CarTypes.MOTORBIKE)
                         cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
 
@@ -255,8 +275,7 @@ def vehicle_detection_counting(self):
                 if CheckBoxController.get_value_plate_detection() and 900 > cy > 500:
                     b, xmin, ymin, xmax, ymax, ocr_result = plateDetectionController.predict(image_np=img[y1:y2, x1:x2],
                                                                                              id=id)
-                    print("frame = " + str(current_frame) + "," + str(x1 + xmin) + "," + str(x1 + xmax) + "," + str(
-                        y1 + ymin) + "," + str(y1 + ymax))
+
                     if b:
                         overspeed.add_overspeed_Profile_info(id=id, frame=current_frame, dimension1=[x1, y1, x2, y2],
                                                              dimension2=[xmin, ymin, xmax, ymax], plate_text=ocr_result)
@@ -273,7 +292,7 @@ def vehicle_detection_counting(self):
                         if restrictive.speed_detection_restrictive(cy, heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.BUS)
 
-                        if speed > Speed_Calculator.overspeed:
+                        if speed > overspeed_punishment:
                             colorRect = Color_Constants.get_Red_Color()
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=5, colorR=colorRect)
@@ -287,6 +306,7 @@ def vehicle_detection_counting(self):
 
                     if totalCountBus.count(id) == 0:
                         totalCountBus.append(id)
+                        count_vehicle_statistics.add_Statistic_vehicle_count_type_info(CarTypes=CarTypes.BUS)
                         cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
 
@@ -317,7 +337,7 @@ def vehicle_detection_counting(self):
                         if restrictive.speed_detection_restrictive(cy, heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.TRUCK)
 
-                        if speed > Speed_Calculator.overspeed:
+                        if speed > overspeed_punishment:
                             colorRect = Color_Constants.get_Red_Color()
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=5, colorR=colorRect)
@@ -331,6 +351,7 @@ def vehicle_detection_counting(self):
 
                     if totalCountTruck.count(id) == 0:
                         totalCountTruck.append(id)
+                        count_vehicle_statistics.add_Statistic_vehicle_count_type_info(CarTypes=CarTypes.TRUCK)
                         cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
             # cvzone.putTextRect(img, f' Count: {len(totalCount)}', (50, 50))
