@@ -1,5 +1,4 @@
 import resource_pyqt5.resource_rc
-
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'sidebar_main_2.ui'
@@ -326,6 +325,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         font.setStrikeOut(False)
         self.label_plate_write.setFont(font)
+        self.label_plate_write.setText("")
         self.label_plate_write.setAlignment(QtCore.Qt.AlignCenter)
         self.label_plate_write.setObjectName("label_plate_write")
         self.frame_4 = QtWidgets.QFrame(self.left_frame)
@@ -528,7 +528,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         self.change_btn.toggled['bool'].connect(self.icon_only_widget.setVisible) # type: ignore
         self.change_btn.toggled['bool'].connect(self.full_menu_widget.setHidden) # type: ignore
         self.home_btn_1.toggled['bool'].connect(self.home_btn_2.setChecked) # type: ignore
@@ -568,14 +568,15 @@ class Ui_MainWindow(object):
         self.label_9.setText(_translate("MainWindow", "Age               :"))
         self.label_10.setText(_translate("MainWindow", "Gender         :"))
         self.label_5.setText(_translate("MainWindow", "Tc                  :"))
-        self.label_plate_write.setText(_translate("MainWindow", "34ab ."))
         self.pushButton.setText(_translate("MainWindow", "Update"))
         self.label_7.setText(_translate("MainWindow", "PAGE 4"))
         self.label_3.setText(_translate("MainWindow", "Vehicle Counting"))
         self.home_btn_2.setText(_translate("MainWindow", "Home"))
         self.statistic_btn_2.setText(_translate("MainWindow", "Statistic"))
-        self.settings_btn_2.setText(_translate("MainWindow", "Settings"))
+        self.settings_btn_2.setText(_translate("MainWindow", "Profile"))
         self.exit_btn_2.setText(_translate("MainWindow", "Exit"))
+
+
 
 
 

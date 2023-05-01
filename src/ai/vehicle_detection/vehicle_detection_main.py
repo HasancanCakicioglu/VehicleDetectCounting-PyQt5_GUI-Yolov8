@@ -384,8 +384,7 @@ def vehicle_detection_counting(self):
         elapsed_time = end_time - start_time
         print(f"İşlem {elapsed_time:.4f} saniye sürdü.")
 
-    print("100")
-    self.cap.release()
-    print("101")
 
-    print("102")
+    self.cap.release()
+
+
