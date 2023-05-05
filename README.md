@@ -23,7 +23,7 @@ To run this project, you must first have Python and pip installed on your comput
 To download this project, you can use the `git clone` command as follows:
 
 ```
-git clone https://github.com/IstakozNecmi/VehicleDetectCounting-PyQt5_GUI-Yolov8.git
+git clone https://github.com/HasancanCakicioglu/VehicleDetectCounting-PyQt5_GUI-Yolov8.git
 ```
 
 After downloading the project files, you can install the required libraries by running the following command:
