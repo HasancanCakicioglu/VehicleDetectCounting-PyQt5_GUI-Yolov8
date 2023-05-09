@@ -12,6 +12,10 @@ class Color_Constants():
         return tuple((255, 0, 0))
 
     @staticmethod
+    def get_Orange_Color():
+        return tuple((255, 165, 0))
+
+    @staticmethod
     def get_Green_Color():
         return tuple((0,255, 0))
 

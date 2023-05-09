@@ -3,7 +3,7 @@ from enum import Enum
 
 class Mask(Enum):
     MASK_1 = "assets/mask/traffic_mask.png"
-    MASK_2 = "assets/mask/traffic_mask2.png"
+    MASK_2 = "assets/mask/mask2.png"
 
 class Line(Enum):
     LINE_1 = [0, 597, 1920, 597]

@@ -188,6 +188,8 @@ def vehicle_detection_counting(self):
                 w, h = x2 - x1, y2 - y1
                 cy = y1 + h // 2
                 colorRect = Color_Constants.get_Purple_Color()
+                blueSpeedColor = Color_Constants.get_Blue_Color()
+                idColor = Color_Constants.get_Orange_Color()
 
 
 
@@ -205,8 +207,8 @@ def vehicle_detection_counting(self):
 
                     if speed is not None:
                         speed_Calcualtor.add_max_vehicle_speed(id=id, max_speed=speed)
-                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)), max(35, y1)),
-                                           scale=2, thickness=3, offset=10)
+                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)-20), max(35, y1-40)),
+                                           scale=2, thickness=3, offset=10,colorR=blueSpeedColor)
 
                         if restrictive.speed_detection_restrictive(cy,heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.CAR)
@@ -215,8 +217,8 @@ def vehicle_detection_counting(self):
                             colorRect = Color_Constants.get_Red_Color()
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=5, colorR=colorRect)
-                cvzone.putTextRect(img, f' {int(id)} - Car', (max(0, x1), max(35, y1 - 5)),
-                                   scale=2, thickness=3, offset=10)
+                cvzone.putTextRect(img, f' {int(id)} - Car', (max(0, x1), max(35, y1 - 5),),
+                                   scale=2, thickness=3, offset=10,colorR=idColor)
 
                 cx, cy = x1 + w // 2, y1 + h // 2
                 cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)
@@ -242,8 +244,8 @@ def vehicle_detection_counting(self):
                     speed = speed_Calcualtor.add_vehicle_speed_info(id, [x1 + w / 2, y1 + h / 2])
 
                     if speed is not None:
-                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)), max(35, y1)),
-                                           scale=2, thickness=3, offset=10)
+                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)-20), max(35, y1)-40),
+                                           scale=2, thickness=3, offset=10,colorR=blueSpeedColor)
                         if speed > overspeed_punishment:
                             colorRect = Color_Constants.get_Red_Color()
                         if restrictive.speed_detection_restrictive(cy, heightImage):
@@ -252,7 +254,7 @@ def vehicle_detection_counting(self):
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=2, colorR=colorRect)
                 cvzone.putTextRect(img, f' {int(id)} - Motorbike', (max(0, x1), max(35, y1)),
-                                   scale=2, thickness=3, offset=10)
+                                   scale=2, thickness=3, offset=10,colorR=idColor)
 
                 cx, cy = x1 + w // 2, y1 + h // 2
                 cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)
@@ -286,8 +288,8 @@ def vehicle_detection_counting(self):
 
                     if speed is not None:
                         speed_Calcualtor.add_max_vehicle_speed(id=id, max_speed=speed)
-                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)), max(35, y1)),
-                                           scale=2, thickness=3, offset=10)
+                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)-20), max(35, y1-40)),
+                                           scale=2, thickness=3, offset=10,colorR=blueSpeedColor)
 
                         if restrictive.speed_detection_restrictive(cy, heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.BUS)
@@ -297,7 +299,7 @@ def vehicle_detection_counting(self):
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=5, colorR=colorRect)
                 cvzone.putTextRect(img, f' {int(id)} - Bus', (max(0, x1), max(35, y1 - 5)),
-                                   scale=2, thickness=3, offset=10)
+                                   scale=2, thickness=3, offset=10,colorR=idColor)
 
                 cx, cy = x1 + w // 2, y1 + h // 2
                 cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)
@@ -331,8 +333,8 @@ def vehicle_detection_counting(self):
 
                     if speed is not None:
                         speed_Calcualtor.add_max_vehicle_speed(id=id, max_speed=speed)
-                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)), max(35, y1)),
-                                           scale=2, thickness=3, offset=10)
+                        cvzone.putTextRect(img, f' {int(speed)}/KM', (max(0, int(x1 + w / 2)-20), max(35, y1-40)),
+                                           scale=2, thickness=3, offset=10,colorR=blueSpeedColor)
 
                         if restrictive.speed_detection_restrictive(cy, heightImage):
                             vehicle_Statistic.add_Statistic_vehicle_speed_info(speed=speed, CarTypes=CarTypes.TRUCK)
@@ -342,7 +344,7 @@ def vehicle_detection_counting(self):
 
                 cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=5, colorR=colorRect)
                 cvzone.putTextRect(img, f' {int(id)} - Truck', (max(0, x1), max(35, y1 - 5)),
-                                   scale=2, thickness=3, offset=10)
+                                   scale=2, thickness=3, offset=10,colorR=idColor)
 
                 cx, cy = x1 + w // 2, y1 + h // 2
                 cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)

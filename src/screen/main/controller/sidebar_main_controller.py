@@ -15,6 +15,7 @@ from src.constants.assets.assets_constants import AssetsConstants
 from src.constants.assets.assets_enums import assetsEnum
 from src.constants.assets.color_constants import Color_Constants
 from src.constants.carTypes import CarTypes
+from src.database.database_sqlite3 import Driver
 from src.screen.main.generate.sidebar_main_generate import Ui_MainWindow
 from src.state_managment.checkBox_controller import CheckBoxController
 from src.state_managment.chosen_variable import chosenVariable
@@ -69,8 +70,6 @@ class MainWindow(QMainWindow):
     def on_line_edit_changed(self,text):
         chosenVariable.set_Speed_Limit(int(text))
 
-
-
     def initializeComboBoxes(self):
 
         self.ui.comboBox_mask.addItems(chosenVariable.get_List_MASK_NAME())
@@ -87,8 +86,20 @@ class MainWindow(QMainWindow):
 
     def on_table_cell_clicked(self,row, column):
         item = self.tableWidget.item(row, column)
+        cell_text = item.text()
 
-        isim, soyisim, yas, cinsiyet, tc = self.create_fake_data()
+        info_driver = Driver.get_by_plate(cell_text)
+        if info_driver is None:
+            isim, soyisim, yas, cinsiyet, tc = self.create_fake_data()
+
+            Driver.save(Driver(isim,soyisim,cinsiyet,int(yas),tc,cell_text))
+        else:
+            isim = info_driver.name
+            soyisim = info_driver.surname
+            yas = str(info_driver.age)
+            cinsiyet = info_driver.gender
+            tc = info_driver.tc
+
         profile = None
         if cinsiyet == "man":
             profile = "assets/image/man_profile.png"
@@ -96,14 +107,12 @@ class MainWindow(QMainWindow):
             profile = "assets/image/women_profile.png"
 
         self.initialize_Profile_Page(isim, soyisim, yas, cinsiyet, tc, profile,None)
-        cell_text = item.text()
+
 
         self.ui.label_plate_write.setText(cell_text)
 
         for dictionary in overspeed_Profile_Controller.plate:
 
-            print(dictionary["plate_text"])
-            print(cell_text)
             if dictionary["plate_text"][0][1] == cell_text:
 
                 frame = dictionary["frame"]
