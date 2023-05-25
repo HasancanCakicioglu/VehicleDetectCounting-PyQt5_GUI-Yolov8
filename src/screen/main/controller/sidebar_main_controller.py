@@ -16,7 +16,7 @@ from src.constants.assets.assets_enums import assetsEnum
 from src.constants.assets.color_constants import Color_Constants
 from src.constants.carTypes import CarTypes
 from src.database.database_sqlite3 import Driver
-from src.screen.main.generate.sidebar_main_generate import Ui_MainWindow
+from src.screen.main.generate.sidebar_main_ui import Ui_MainWindow
 from src.state_managment.checkBox_controller import CheckBoxController
 from src.state_managment.chosen_variable import chosenVariable
 from src.state_managment.count_vehicle import count_vehicle_statistics
@@ -65,12 +65,24 @@ class MainWindow(QMainWindow):
 
         self.ui.search_btn.clicked.connect(self.search_btn_main)
 
+        self.ui.pushButton_2.setIcon(QIcon("assets/icons/videoplay.ico"))
+        self.ui.pushButton_2.clicked.connect(self.videoplayer_stop_button)
+
 
         self.ui.pushButton_close.clicked.connect(self.pushButton_close_func)
         self.ui.comboBox_model.setCurrentText("Yolov8l")
         self.tableWidgetProfilePage()
 
         self.ui.lineEdit_speed_punshment.textChanged.connect(self.on_line_edit_changed)
+
+    def videoplayer_stop_button(self):
+        VideoController.toggle()
+
+        if VideoController.playing:
+            self.ui.pushButton_2.setIcon(QIcon("assets/icons/videostop.ico"))
+        else:
+            self.ui.pushButton_2.setIcon(QIcon("assets/icons/videoplay.ico"))
+
 
 
     def search_btn_main(self):

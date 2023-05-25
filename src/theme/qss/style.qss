@@ -130,5 +130,9 @@
         background-color: #556478;
         border: none;
 }
+#pushButton_2 {
+        background-color: #556478;
+        border: none;
+}
 /*= END
   ==================================================== */

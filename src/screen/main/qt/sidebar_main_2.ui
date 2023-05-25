@@ -72,8 +72,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/icons/icons/menu2.ico</normaloff>:/icons/icons/menu2.ico</iconset>
+             <iconset resource="../../../../resource_pyqt5/resource.qrc">
+              <normaloff>:/icons/menu2.ico</normaloff>:/icons/menu2.ico</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -112,8 +112,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/icons/icons/search.ico</normaloff>:/icons/icons/search.ico</iconset>
+             <iconset resource="../../../../resource_pyqt5/resource.qrc">
+              <normaloff>:/icons/search.ico</normaloff>:/icons/search.ico</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -142,8 +142,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="resource.qrc">
-              <normaloff>:/icons/icons/exit.ico</normaloff>:/icons/icons/exit.ico</iconset>
+             <iconset resource="../../../../resource_pyqt5/resource.qrc">
+              <normaloff>:/icons/exit.ico</normaloff>:/icons/exit.ico</iconset>
             </property>
            </widget>
           </item>
@@ -153,7 +153,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_1">
           <layout class="QGridLayout" name="gridLayout_3">
@@ -427,6 +427,44 @@
                    </rect>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                   <item>
+                    <widget class="QPushButton" name="pushButton_2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../../../../resource_pyqt5/resource.qrc">
+                       <normaloff>:/icons/videoplay.ico</normaloff>:/icons/videoplay.ico</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>35</width>
+                       <height>35</height>
+                      </size>
+                     </property>
+                     <property name="checkable">
+                      <bool>false</bool>
+                     </property>
+                     <property name="autoRepeat">
+                      <bool>false</bool>
+                     </property>
+                     <property name="autoExclusive">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <widget class="QPushButton" name="select_video_pushButton">
                      <property name="minimumSize">
@@ -989,7 +1027,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="resource.qrc">:/icons/icons/h.ico</pixmap>
+            <pixmap resource="../../../../resource_pyqt5/resource.qrc">:/icons/h.ico</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1019,8 +1057,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/home.ico</normaloff>:/icons/icons/home.ico</iconset>
+            <iconset resource="../../../../resource_pyqt5/resource.qrc">
+             <normaloff>:/icons/home.ico</normaloff>:/icons/home.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1042,8 +1080,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/graph.ico</normaloff>:/icons/icons/graph.ico</iconset>
+            <iconset resource="../../../../resource_pyqt5/resource.qrc">
+             <normaloff>:/icons/graph.ico</normaloff>:/icons/graph.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1065,8 +1103,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>:/icons/icons/profile.ico</normaloff>:/icons/icons/profile.ico</iconset>
+            <iconset resource="../../../../resource_pyqt5/resource.qrc">
+             <normaloff>:/icons/profile.ico</normaloff>:/icons/profile.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1103,8 +1141,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/icons/icons/exit.ico</normaloff>:/icons/icons/exit.ico</iconset>
+          <iconset resource="../../../../resource_pyqt5/resource.qrc">
+           <normaloff>:/icons/exit.ico</normaloff>:/icons/exit.ico</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -1153,15 +1191,15 @@
           <widget class="QLabel" name="label_2">
            <property name="maximumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>70</width>
+             <height>70</height>
             </size>
            </property>
            <property name="text">
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="resource.qrc">:/icons/icons/h.ico</pixmap>
+            <pixmap resource="../../../../resource_pyqt5/resource.qrc">:/icons/h.ico</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1174,6 +1212,12 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QLabel" name="label_3">
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>50</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <pointsize>8</pointsize>
@@ -1187,6 +1231,9 @@
            </property>
            <property name="text">
             <string>Vehicle Counting</string>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1231,8 +1278,8 @@
             <string>Home</string>
            </property>
            <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/home.ico</normaloff>:/icons/icons/home.ico</iconset>
+            <iconset resource="../../../../resource_pyqt5/resource.qrc">
+             <normaloff>:/icons/home.ico</normaloff>:/icons/home.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1260,8 +1307,8 @@
             <string>Statistic</string>
            </property>
            <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/graph.ico</normaloff>:/icons/icons/graph.ico</iconset>
+            <iconset resource="../../../../resource_pyqt5/resource.qrc">
+             <normaloff>:/icons/graph.ico</normaloff>:/icons/graph.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1289,8 +1336,8 @@
             <string>Profile</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>:/icons/icons/profile.ico</normaloff>:/icons/icons/profile.ico</iconset>
+            <iconset resource="../../../../resource_pyqt5/resource.qrc">
+             <normaloff>:/icons/profile.ico</normaloff>:/icons/profile.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1333,8 +1380,8 @@
           <string>Exit</string>
          </property>
          <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/icons/icons/exit.ico</normaloff>:/icons/icons/exit.ico</iconset>
+          <iconset resource="../../../../resource_pyqt5/resource.qrc">
+           <normaloff>:/icons/exit.ico</normaloff>:/icons/exit.ico</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -1351,6 +1398,7 @@
   </widget>
  </widget>
  <resources>
+  <include location="../../../../resource_pyqt5/resource.qrc"/>
   <include location="resource.qrc"/>
  </resources>
  <connections>

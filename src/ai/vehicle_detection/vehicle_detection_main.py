@@ -80,6 +80,9 @@ def vehicle_detection_counting(self):
 
 
     while self.ThreadActive:
+
+        VideoController.control()
+
         start_time = time.time()
         success, img = self.cap.read()
         heightImage, widthImage, channels = img.shape

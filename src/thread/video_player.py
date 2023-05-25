@@ -21,7 +21,7 @@ class videoPlayer(QThread):
         print("Kod {} üzerinde çalışıyor.".format(device))
 
         vehicle_detection_counting(self)
-
+        print("bitti")
 
         self.cap.release()
 

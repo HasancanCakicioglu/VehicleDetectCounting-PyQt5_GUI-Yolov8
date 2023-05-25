@@ -2,5 +2,7 @@ pyuic5.exe sidebar_main.ui -o sidebar_main_ui.py
 pyrcc5 -o resource_rc.py resource.qrc
 
 
+pyuic5.exe D:\pycharmProjectFolder\VehicleCounting\src\screen\main\qt\sidebar_main_2.ui -o sidebar_main_ui.py
+pyrcc5 -o D:\pycharmProjectFolder\VehicleCounting\resource_pyqt5\resource_rc.py resource.qrc
 
 pyuic5.exe sidebar_main_2.ui -o sidebar_main_ui_2.py

@@ -1,17 +1,16 @@
 <RCC>
   <qresource prefix="icons">
-    <file>icons/profile.ico</file>
-    <file>icons/graph.ico</file>
-    <file>icons/exit.ico</file>
-    <file>icons/h.ico</file>
-    <file>icons/home.ico</file>
-    <file>icons/menu.ico</file>
-    <file>icons/menu2.ico</file>
-    <file>icons/search.ico</file>
-    <file>icons/settings.ico</file>
-    <file>icons/statistic.ico</file>
-    <file>icons/exit.ico</file>
-    <file>icons/home.ico</file>
-    <file>icons/menu.ico</file>
+    <file>exit.ico</file>
+    <file>graph.ico</file>
+    <file>h.ico</file>
+    <file>home.ico</file>
+    <file>menu.ico</file>
+    <file>menu2.ico</file>
+    <file>profile.ico</file>
+    <file>search.ico</file>
+    <file>settings.ico</file>
+    <file>statistic.ico</file>
+    <file>videoplay.ico</file>
+    <file>videostop.ico</file>
   </qresource>
 </RCC>
