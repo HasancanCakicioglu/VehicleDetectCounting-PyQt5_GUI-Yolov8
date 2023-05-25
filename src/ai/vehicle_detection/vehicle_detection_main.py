@@ -22,6 +22,7 @@ from src.state_managment.count_vehicle import count_vehicle_statistics
 from src.state_managment.overspeed_profile_controller import overspeed_Profile_Controller
 from src.state_managment.speed_controller import Speed_Calculator
 from src.state_managment.vehicle_statistic import vehicle_Statistic
+from src.state_managment.video_controller import VideoController
 
 
 def vehicle_detection_counting(self):
@@ -86,21 +87,12 @@ def vehicle_detection_counting(self):
         overspeed_punishment = chosenVariable.get_Speed_Limit()
 
 
+
         frame_count = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
         fps = self.cap.get(cv2.CAP_PROP_FPS)
         current_frame = self.cap.get(cv2.CAP_PROP_POS_FRAMES)
         remaining_time = (frame_count - current_frame) / fps
 
-        #imgG = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-        #plates = plate_cascade.detectMultiScale(imgG,1.1,4, minSize=(5, 5), maxSize=(200, 200))
-        #for (x, y, w, h) in plates:
-        #    print("girdi"+str(plates))
-        #    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-        # video bittiğinde
-        #print("remaninin time "+str(remaining_time))
-        #print("frame count = "+str(frame_count))
-        #print("current fraem = "+str(current_frame))
         if current_frame == frame_count-1:
 
             self.ThreadActive = False
@@ -365,14 +357,6 @@ def vehicle_detection_counting(self):
 
             cv2.putText(img, str(len(totalCountTruck)), (int(widthImage - (overlayWidthTruck/1.5)), 280), cv2.FONT_HERSHEY_PLAIN, 5, (50, 50, 255), 8)
 
-            # new_size = (1000, 500)  # Yeni boyut
-            # resized_img = cv2.resize(img, new_size)
-
-            # cv2.imshow("ImageRegion", imgRegion)
-
-            # if CheckBoxController.get_value_plate_detection():
-            #    img = plateDetectionController.predict(image_np=img)
-
         height, width, channel = img.shape
 
         convertToQtFormat = QImage(img.data, width, height, QImage.Format_RGB888)
@@ -385,6 +369,11 @@ def vehicle_detection_counting(self):
         end_time = time.time()
         elapsed_time = end_time - start_time
         print(f"İşlem {elapsed_time:.4f} saniye sürdü.")
+
+        VideoController.control()
+
+
+
 
 
     self.cap.release()

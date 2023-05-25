@@ -2,6 +2,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import torch
 from src.ai.vehicle_detection.vehicle_detection_main import vehicle_detection_counting
+from src.state_managment.video_controller import VideoController
 
 
 class videoPlayer(QThread):
@@ -21,11 +22,11 @@ class videoPlayer(QThread):
 
         vehicle_detection_counting(self)
 
-        print("103")
+
         self.cap.release()
-        print("104")
+
         self.quit()
-        print("105")
+
 
     def stop(self):
         self.ThreadActive = False

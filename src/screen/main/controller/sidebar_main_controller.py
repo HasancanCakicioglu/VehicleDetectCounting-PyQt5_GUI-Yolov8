@@ -23,6 +23,7 @@ from src.state_managment.count_vehicle import count_vehicle_statistics
 from src.state_managment.overspeed_profile_controller import overspeed_Profile_Controller
 from src.state_managment.speed_controller import Speed_Calculator
 from src.state_managment.vehicle_statistic import vehicle_Statistic
+from src.state_managment.video_controller import VideoController
 from src.thread.video_player import videoPlayer
 
 
@@ -32,6 +33,9 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+
+
 
         self.ui.icon_only_widget.hide()
         self.ui.stackedWidget.setCurrentIndex(3)
@@ -59,12 +63,46 @@ class MainWindow(QMainWindow):
 
         self.ui.tableWidget_plate.cellClicked.connect(self.on_table_cell_clicked)
 
+        self.ui.search_btn.clicked.connect(self.search_btn_main)
+
 
         self.ui.pushButton_close.clicked.connect(self.pushButton_close_func)
         self.ui.comboBox_model.setCurrentText("Yolov8l")
         self.tableWidgetProfilePage()
 
         self.ui.lineEdit_speed_punshment.textChanged.connect(self.on_line_edit_changed)
+
+
+    def search_btn_main(self):
+        print("aaaaaaaaaaaaaaaaaaaaaaaa")
+        print(self.ui.search_input.text())
+        search_plate_text = self.ui.search_input.text()
+
+        rowCount = self.tableWidget.rowCount()
+        for row in range(rowCount):
+            self.tableWidget.removeRow(0)
+
+        for dictionary in overspeed_Profile_Controller.plate:
+            maxSpeed=0
+            cell_num = 0
+
+            row_count = self.tableWidget.rowCount()
+            self.tableWidget.insertRow(row_count)
+
+            plate_text = str(dictionary['plate_text'][0][1])
+            if search_plate_text in plate_text:
+                item = QTableWidgetItem(plate_text)
+                self.tableWidget.setItem(row_count, 0, item)
+
+                for speC in Speed_Calculator.vehicle_max_speed:
+                    if speC["id"] == dictionary["id"]:
+                        maxSpeed = speC["max_speed"]
+
+                if maxSpeed > chosenVariable.get_Speed_Limit():
+                    brush = Color_Constants.get_Red_QBrush_Color()
+                else:
+                    brush = Color_Constants.get_Green_QBrush_Color()
+                item.setBackground(brush)
 
 
     def on_line_edit_changed(self,text):
@@ -155,6 +193,7 @@ class MainWindow(QMainWindow):
 
 
     def update_button_profile(self):
+
         try:
             i = overspeed_Profile_Controller.plate
         except:
@@ -196,7 +235,7 @@ class MainWindow(QMainWindow):
         else:
             profile = "assets/image/women_profile.png"
 
-        self.initialize_Profile_Page(isim, soyisim, yas, cinsiyet, tc, profile,None)
+        #self.initialize_Profile_Page(isim, soyisim, yas, cinsiyet, tc, profile,None)
 
 
     def tableWidgetProfilePage(self):
