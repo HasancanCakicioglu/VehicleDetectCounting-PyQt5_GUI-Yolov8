@@ -9,6 +9,8 @@ class AssetsConstants:
     _VIDEO_DIR = 'assets/video'
     _THEME_DIR = "src/theme/qss"
 
+    _VIDEO_NAME=""
+
     @staticmethod
     def get_model_path(filename : assetsEnum):
         return f'{AssetsConstants._MODEL_DIR}/{filename}'
@@ -32,6 +34,17 @@ class AssetsConstants:
     @staticmethod
     def get_theme_path(filename: assetsEnum):
         return f'{AssetsConstants._THEME_DIR}/{filename}'
+
+    @staticmethod
+    def get_video_name():
+        return AssetsConstants._VIDEO_NAME
+
+    @staticmethod
+    def set_video_name(video_name):
+        AssetsConstants._VIDEO_NAME = video_name
+
+
+
 
     @staticmethod
     def get_classnames():

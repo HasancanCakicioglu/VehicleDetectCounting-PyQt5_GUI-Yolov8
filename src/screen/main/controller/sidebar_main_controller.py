@@ -169,7 +169,8 @@ class MainWindow(QMainWindow):
                 x1,y1,x2,y2 = dictionary["dimension1"]
                 xmin,ymin,xmax,ymax = dictionary["dimension2"]
 
-                cap = cv2.VideoCapture('assets/video/traffic.mp4')
+                a = 'assets/video/traffic.mp4'
+                cap = cv2.VideoCapture(AssetsConstants.get_video_name())
                 frame_number = frame
                 cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
                 success, img = cap.read()
@@ -326,7 +327,7 @@ class MainWindow(QMainWindow):
         fname = QFileDialog.getOpenFileName(self, 'Video Seç', '.', 'Video Dosyaları (*.mp4 *.avi)')
         print("video = "+str(fname))
         if fname[0].__contains__(".mp4"):
-
+            AssetsConstants.set_video_name(fname[0])
             self.videoPlayer = videoPlayer(fname, self.model)
             self.videoPlayer.start()
             self.videoPlayer.ImageUpdate.connect(self.ImageUpdateSlot)
