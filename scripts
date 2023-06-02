@@ -6,3 +6,15 @@ pyuic5.exe D:\pycharmProjectFolder\VehicleCounting\src\screen\main\qt\sidebar_ma
 pyrcc5 -o D:\pycharmProjectFolder\VehicleCounting\resource_pyqt5\resource_rc.py resource.qrc
 
 pyuic5.exe sidebar_main_2.ui -o sidebar_main_ui_2.py
+
+
+
+Traceback (most recent call last):
+  File "venv\Lib\site-packages\PyInstaller\hooks\rthooks\pyi_rth_win32comgenpy.py", line 40, in <module>
+    import win32com  # noqa: E402
+  File "PyInstaller\loader\pyimod02_importers.py", line 352, in exec_module
+  File "win32com\__init__.py", line 9, in <module>
+ImportError: DLL load failed while importing win32api: Belirtilen yordam bulunamadı.
+
+
+
